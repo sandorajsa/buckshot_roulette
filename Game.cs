@@ -19,12 +19,15 @@ namespace buckshot_roulette
             WriteBullets(bullets);
             Thread.Sleep(100);
 
-            while (player.Lives > 0 && ai.Lives > 0 && bullets.Count > 0)
+            while (player.Lives > 0 && ai.Lives > 0 && bullets.Count > 0)// ez így még lehet nem jó ha meghal az AI akkor szerintem kifagy amikor ő jönne de nem volt kedvem egy függvényben megcsinálni ugyhogy ezt is meg kell még :(
             {
-                //ide kéne a kérdés hogy meghúzza e a ravaszt
-                //3 opció: lője magát, lője az ellenfelet, használjon tárgyakat
-                //tárgyak: mutassa az összes elérhető tárgyat és lehessen választani
-                //folyamatosan vizsgálni kell hogy meghalt e már valaki és van e még elég golyó
+                PlayerTurn(); // a menüket leteszteltem jól működnek de most így nincsenek meghívva
+                if (ai.Lives > 0)
+                {
+                    AITurn();
+                }
+                else Console.WriteLine("Nyertél??"); // ez lehet megoldás a fenti commentre de asdasdasdjasnfjasbefitbugsweritgbsipdubgsidzbgpiusdbs
+
             }
         }
 
@@ -35,6 +38,11 @@ namespace buckshot_roulette
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write($"\t{Gun.BlankAtStart} db vaktöltény");
             Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public static void UseItems(Player player)
+        {
+
         }
     }
 }
