@@ -9,10 +9,12 @@ namespace buckshot_roulette
     static class Gun
     {
         private static List<bool> Bullets { get; set; } = new List<bool>();
-        public static int LiveNum { get; private set; } //folyamatosan változnak
-        public static int BlankNum { get; private set; }
+        private static int LiveNum { get; set; } //folyamatosan változnak
+        private static int BlankNum { get; set; }
         public static int LiveAtStart { get; private set; } //maradnak ugyanazok, a golyók eredeti aránya
         public static int BlankAtStart { get; private set; }
+        public static int NumOfBullets { get {  return Bullets.Count; } }
+        public static bool LastBullet { get { return Bullets[NumOfBullets - 1]; } }
 
         public static void LoadBullets() //minden kör elején feltölti a fegyvert
         {
@@ -88,12 +90,16 @@ namespace buckshot_roulette
             }
         }
 
-        public static void NextBullet() //ez kiírja milyen típusú az utolsó lövedék de nem veszi ki (nagyítóhoz kell)
+        public static void NextBulletString() //ez kiírja milyen típusú az utolsó lövedék de nem veszi ki (nagyítóhoz kell)
         {
             if (Bullets[Bullets.Count - 1])
                 Console.WriteLine("A következõ lövedék éles.");
             else
                 Console.WriteLine("A következõ lövedék vaktöltény.");
+        }
+        public static bool NextBullet()
+        {
+            return Bullets[Bullets.Count - 1];
         }
     }
 }

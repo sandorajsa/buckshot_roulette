@@ -9,6 +9,7 @@ namespace buckshot_roulette
     class Player
     {
         public string Name { get; private set; }
+        public int Points { get; set; } = 0;
         public int Lives { get; set; }
         public int Damage = 1;
         public List<string> Items { get; private set; }
@@ -21,32 +22,38 @@ namespace buckshot_roulette
             Items = new List<string>();
         }
 
-        public bool ShotAt(Player enemy) //ha azt választja hogy a másikat lőjje
+        public bool ShotAt(AI enemy) //ha azt választja hogy a másikat lőjje
         {
             if (Gun.Shoot())
             {
                 Lives -= enemy.Damage;
                 enemy.Damage = 1;
+                enemy.CurLive--;
                 return Lives > 0;
             }
             else
             {
-                Damage = 1;
+                enemy.Damage = 1;
+                Points += 100;
+                enemy.CurBlank--;
                 return true;
             }
             
         }
-        public bool ShootSelf() //ha önmagát akarja lőni
+        public bool ShootSelf(AI enemy) //ha önmagát akarja lőni
         {
             if (Gun.Shoot())
             {
                 Lives -= Damage;
                 Damage = 1;
+                enemy.CurLive--;
                 return Lives > 0;
             }
             else
             {
                 Damage = 1;
+                Points += 200;
+                enemy.CurBlank--;
                 return true;
             }
         }
@@ -60,13 +67,13 @@ namespace buckshot_roulette
                 Items.Add(availableItems[i]);
             }
         }
-        public void ChooseItem(string item) //ez a tárgy kivákastása, ezt kell menüben meghívni
+        public virtual void ChooseItem(string item) //ez a tárgy kiválasztása, ezt kell menüben meghívni
         {
             Items.Remove(item);
             Console.WriteLine($"{Name} elhasznált egy {item}t.");
             UseItem(item);
         }
-        private void UseItem(string item) //ez megoldja az effecteket amiket az itemek adnak
+        protected void UseItem(string item) //ez megoldja az effecteket amiket az itemek adnak
         {
             switch (item)
             {
@@ -77,7 +84,7 @@ namespace buckshot_roulette
                     Lives++;
                     break;
                 case "Nagyító":
-                    Gun.NextBullet();
+                    Gun.NextBulletString();
                     break;
                 case "Kézi fűrész":
                     Damage = 2;
