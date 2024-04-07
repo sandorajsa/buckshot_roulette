@@ -1,3 +1,4 @@
 ﻿using buckshot_roulette;
 
-Game.Round();
+//Gun.LoadBullets();
+//Game.Round();

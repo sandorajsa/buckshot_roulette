@@ -8,28 +8,26 @@ namespace buckshot_roulette
 {
     class AI : Player
     {
-        public AIPlayer(string name, int maxLives) : base('Az ellenfél', maxLives)
+        private int LiveAtStart = Gun.LiveAtStart;
+        private int BlankAtStart = Gun.BlankAtStart;
+        private int CurLive {  get; set; }
+        private int CurBlank { get; set; }
+
+        public AI(string name, int maxLives) : base("Az ellenfél", maxLives)
         {
         }
 
-        //public override bool PullTrigger(Gun gun)
-        //{
-        //    bool decision = WhoToShoot();
-        //    if (decision)
-        //    {
-        //        return base.PullTrigger(gun);
-        //    }
-        //}
-
-        private bool WhoToShoot(Gun gun) //true = self, false = player
+        //mindig ezt kell meghívni minden körben, mivel ez hív meg minden másik függvényt
+        private bool WhoToShoot() //true = self, false = player //ez az ahol az AI eldönti hogy önmagát vagypedig a másikat lőjje bizonyos faktorok alapján pl: golyók aránya, maradék életek száma
         {
-            int liveBullets = gun.LiveNum;
-            int blankBullets = gun.BlankNum;
-
-            if (liveBullets > blankBullets)
+            if (Gun.LiveNum > Gun.BlankNum)
                 return false;
-            else
+            else if (Gun.BlankNum > Gun.LiveNum)
                 return true;
+            else
+                return false; //másikat lövi, mivel nem biztos benne
         }
+
+        
     }
 }
