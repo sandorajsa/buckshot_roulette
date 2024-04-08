@@ -8,7 +8,7 @@ namespace buckshot_roulette
 {
     static class Gun
     {
-        private static List<bool> Bullets { get; set; } = new List<bool>();
+        public static List<bool> Bullets { get; set; } = new List<bool>();
         private static int LiveNum { get; set; } //folyamatosan változnak
         private static int BlankNum { get; set; }
         public static int LiveAtStart { get; private set; } //maradnak ugyanazok, a golyók eredeti aránya

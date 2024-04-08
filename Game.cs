@@ -11,22 +11,29 @@ namespace buckshot_roulette
     {
         public static void Round(Player player, AI ai, List<bool> bullets) //round során minden leadott lövés után az AInak a CurLive és CurBlankben meg kell adni mennyi maradt még melyikből
         {
+            int roundCount = 1;
             Gun.LoadBullets();
             player.GetItems();
             ai.GetItems();
 
-            Console.WriteLine($"A fegyverben lévő lövedékek:\n");
-            WriteBullets(bullets);
-            Thread.Sleep(100);
+            
 
             while (player.Lives > 0 && ai.Lives > 0 && bullets.Count > 0)// ez így még lehet nem jó ha meghal az AI akkor szerintem kifagy amikor ő jönne de nem volt kedvem egy függvényben megcsinálni ugyhogy ezt is meg kell még :(
             {
-                PlayerTurn(); // a menüket leteszteltem jól működnek de most így nincsenek meghívva
+                Console.WriteLine($"A fegyverben lévő lövedékek:\n");
+                WriteBullets(bullets);
+                Thread.Sleep(7000);
+                Console.Clear();
+                Console.Write($"\nA(z) {roundCount}. kör következik");
+                Thread.Sleep(5000);
+                PlayerTurn(player, ai); // a menüket leteszteltem jól működnek de most így nincsenek meghívva
                 if (ai.Lives > 0)
                 {
-                    AITurn();
+                    AITurn(player, ai);
                 }
                 else Console.WriteLine("Nyertél??"); // ez lehet megoldás a fenti commentre de asdasdasdjasnfjasbefitbugsweritgbsipdubgsidzbgpiusdbs
+                roundCount++;
+                
 
             }
         }
@@ -40,11 +47,11 @@ namespace buckshot_roulette
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public static void UseItems(Player player)
-        {
+        //public static void UseItems(Player player)
+        //{
 
-        }
-        static void PlayerTurn()
+        //}
+        static void PlayerTurn(Player player, AI ai)
         {
             int v;
 
@@ -54,47 +61,55 @@ namespace buckshot_roulette
             {
                 case 0:
                     Console.Clear();
-                    Console.WriteLine("ai.shotat függvény"); ;
+                    Console.WriteLine(ai.ShotAt(ai));
                     break;
                 case 1:
                     Console.Clear();
-                    Console.WriteLine("player.shootself függvény");// Valamiért most nem működik az agyam és esélytelen hogy ezt most megcsináljam de megbeszéljük aztán holnap meglesz vagy ha akarod beírhatod a függvényeket
+                    Console.WriteLine(player.ShootSelf(ai));// Valamiért most nem működik az agyam és esélytelen hogy ezt most megcsináljam de megbeszéljük aztán holnap meglesz vagy ha akarod beírhatod a függvényeket
                     break;
                 case 2:
-                    GetItemsList();
+                    GetItemsList(player);
                     break;
             }
             Console.ResetColor();
         }
 
 
-        static void GetItemsList()
+        static void GetItemsList(Player player)
         {
+            List<string> items = new List<string>();
+            items = player.Items;
             int v;
             Console.ResetColor(); // egy keveset gondolkodtam azon hogy hogyan tudjuk a menübe a player tényleges itemjeit berakni de végül nem jött össze(legegyszerűbb ha csak 3 item van/többet kap a játékos és akkor a menü fix és nem random) de ez is megoldható normálisan
-            v = Menu.MenuRajzol(new string[] { "Item 1", "Item 2", "Item 3" }); // itt lehetne a vissza gomb
+            v = Menu.MenuRajzol(new string[] { items[0], items[1], items[2] }); // itt lehetne a vissza gomb
             switch (v)
             {
                 case 0:
                     Console.Clear();
-                    Console.WriteLine("Used item 1");
+                    Console.WriteLine(items[0]);
+                    player.ChooseItem(items[0]);
                     break;
                 case 1:
                     Console.Clear();
-                    Console.WriteLine("used item 2");
+                    Console.WriteLine("used item:", items[1]);
+                    player.ChooseItem(items[1]);
                     break;
                 case 2:
                     Console.Clear();
-                    Console.WriteLine("used item 3");
+                    Console.WriteLine("used item:", items[2]);
+                    player.ChooseItem(items[2]);
                     break;
             }
             Console.ResetColor();
+            
         }
 
-        static void AITurn()
+        static string AITurn(Player player, AI ai)
         {
 
-            Console.WriteLine("\nai.whotoshoot"); // ja
+            /*Console.WriteLine($"{ai.PullTrigger(player)}");*/ // ja
+            return "ANYADADADADADADAD";
+
         }
     }
 }

@@ -24,7 +24,7 @@ namespace buckshot_roulette
             ConsoleKey key;
             do
             {
-                Console.BackgroundColor = ConsoleColor.Yellow;
+                Console.BackgroundColor = ConsoleColor.Green;
                 Console.ForegroundColor = ConsoleColor.Black;
                 Console.SetCursorPosition(0, aktualis);
                 Console.WriteLine(Menupontok[aktualis]);
