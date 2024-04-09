@@ -8,9 +8,9 @@ namespace buckshot_roulette
 {
     static class Gun
     {
-        public static List<bool> Bullets { get; set; } = new List<bool>();
-        private static int LiveNum { get; set; } //folyamatosan változnak
-        private static int BlankNum { get; set; }
+        public static List<bool> Bullets = new List<bool>();
+        public static int LiveNum { get; set; } //folyamatosan változnak
+        public static int BlankNum { get; set; }
         public static int LiveAtStart { get; private set; } //maradnak ugyanazok, a golyók eredeti aránya
         public static int BlankAtStart { get; private set; }
         public static int NumOfBullets { get {  return Bullets.Count; } }

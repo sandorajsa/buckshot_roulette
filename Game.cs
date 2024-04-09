@@ -9,7 +9,7 @@ namespace buckshot_roulette
 {
     static class Game //ha úgy van lehetne egy default függvény ami az összes többi classban is meghív egy default függvényt ami mindent alaphelyzetbe állít minden kör elején (csak ötlet)
     {
-        public static void Round(Player player, AI ai, List<bool> bullets) //round során minden leadott lövés után az AInak a CurLive és CurBlankben meg kell adni mennyi maradt még melyikből
+        public static void Round(Player player, AI ai) //round során minden leadott lövés után az AInak a CurLive és CurBlankben meg kell adni mennyi maradt még melyikből
         {
             int roundCount = 1;
             Gun.LoadBullets();
@@ -18,10 +18,10 @@ namespace buckshot_roulette
 
             
 
-            while (player.Lives > 0 && ai.Lives > 0 && bullets.Count > 0)// ez így még lehet nem jó ha meghal az AI akkor szerintem kifagy amikor ő jönne de nem volt kedvem egy függvényben megcsinálni ugyhogy ezt is meg kell még :(
+            while (player.Lives > 0 && ai.Lives > 0 && Gun.Bullets.Count > 0)// ez így még lehet nem jó ha meghal az AI akkor szerintem kifagy amikor ő jönne de nem volt kedvem egy függvényben megcsinálni ugyhogy ezt is meg kell még :(
             {
                 Console.WriteLine($"A fegyverben lévő lövedékek:\n");
-                WriteBullets(bullets);
+                WriteBullets();
                 Thread.Sleep(7000);
                 Console.Clear();
                 Console.Write($"\nA(z) {roundCount}. kör következik");
@@ -38,12 +38,12 @@ namespace buckshot_roulette
             }
         }
 
-        public static void WriteBullets(List<bool> bullets)
+        public static void WriteBullets()
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write($"\t{Gun.LiveAtStart} db éles");
+            Console.Write($"\t{Gun.LiveNum} db éles");
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write($"\t{Gun.BlankAtStart} db vaktöltény");
+            Console.Write($"\t{Gun.BlankNum} db vaktöltény");
             Console.ForegroundColor = ConsoleColor.White;
         }
 
@@ -104,11 +104,10 @@ namespace buckshot_roulette
             
         }
 
-        static string AITurn(Player player, AI ai)
+        static void AITurn(Player player, AI ai)
         {
 
-            /*Console.WriteLine($"{ai.PullTrigger(player)}");*/ // ja
-            return "ANYADADADADADADAD";
+            ai.PullTrigger(player);
 
         }
     }
