@@ -24,36 +24,32 @@ namespace buckshot_roulette
 
         public bool ShotAt(AI enemy) //ha azt választja hogy a másikat lőjje
         {
-            if (Gun.Shoot())
+            if (Gun.Shoot(enemy))
             {
                 Lives -= enemy.Damage;
                 enemy.Damage = 1;
-                enemy.CurLive--;
                 return Lives > 0;
             }
             else
             {
                 enemy.Damage = 1;
                 Points += 100;
-                enemy.CurBlank--;
                 return true;
             }
             
         }
         public bool ShootSelf(AI enemy) //ha önmagát akarja lőni
         {
-            if (Gun.Shoot())
+            if (Gun.Shoot(enemy))
             {
                 Lives -= Damage;
                 Damage = 1;
-                enemy.CurLive--;
                 return Lives > 0;
             }
             else
             {
                 Damage = 1;
                 Points += 200;
-                enemy.CurBlank--;
                 return true;
             }
         }

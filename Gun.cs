@@ -44,10 +44,10 @@ namespace buckshot_roulette
             LiveAtStart += LiveNum;
             BlankAtStart += BlankNum;
             RandomizeBullets();
-            foreach (var item in Bullets)
-            {
-                Console.WriteLine(item);
-            }
+            //foreach (var item in Bullets)
+            //{
+            //    Console.WriteLine(item);
+            //}
         }
 
         public static void RandomizeBullets() //randomizálja a sorrendet, hogy az elsõ 2 ne mindig true majd false legyen (ami ugye azért kell hogy ne lehessen csak true vagy csak false a fegyverben)
@@ -62,7 +62,7 @@ namespace buckshot_roulette
             }
         }
 
-        public static bool Shoot() //ez maga a lövés, azt adja vissza hogy a golyó éles volt e vagy vak
+        public static bool Shoot(AI ai) //ez maga a lövés, azt adja vissza hogy a golyó éles volt e vagy vak
         {
             bool liveOrNot = Bullets[Bullets.Count - 1];
             if (liveOrNot)

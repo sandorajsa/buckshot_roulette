@@ -11,8 +11,6 @@ namespace buckshot_roulette
     {
         private static int LiveAtStart = Gun.LiveAtStart;
         private static int BlankAtStart = Gun.BlankAtStart;
-        public int CurLive = LiveAtStart;
-        public int CurBlank = BlankAtStart;
 
         public AI(string name, int maxLives) : base("Az ellenfél", maxLives)
         {
@@ -45,12 +43,12 @@ namespace buckshot_roulette
         private bool ShouldShootSelf(Player enemy) //eldönti kit lőjjön le bizonyos tények alapján
         {
             Random r = new Random();
-            if (CurLive > CurBlank)
+            if (Gun.LiveNum > Gun.BlankNum)
                 if (Lives > 3 && enemy.Lives < Lives + 2)
                     return r.Next(2) == 0;
                 else
                     return false;
-            else if (CurLive < CurBlank)
+            else if (Gun.LiveNum < Gun.BlankNum)
                 if (Lives == 1 || enemy.Lives > Lives + 2)
                     return false;
                 else
