@@ -18,21 +18,25 @@ namespace buckshot_roulette
 
             
 
-            while (player.Lives > 0 && ai.Lives > 0 && Gun.Bullets.Count > 0)// ez így még lehet nem jó ha meghal az AI akkor szerintem kifagy amikor ő jönne de nem volt kedvem egy függvényben megcsinálni ugyhogy ezt is meg kell még :(
+            while (player.Lives > 0 && ai.Lives > 0 && Gun.Bullets.Count > 0)
             {
                 Console.WriteLine($"A fegyverben lévő lövedékek:\n");
                 WriteBullets();
-                Thread.Sleep(7000);
+                Thread.Sleep(8000);
                 Console.Clear();
                 Console.Write($"\nA(z) {roundCount}. kör következik");
                 Thread.Sleep(5000);
-                PlayerTurn(player, ai); // a menüket leteszteltem jól működnek de most így nincsenek meghívva
+                PlayerTurn(player, ai);
                 if (ai.Lives > 0)
                 {
                     AITurn(player, ai);
                 }
-                else Console.WriteLine("Nyertél??"); // ez lehet megoldás a fenti commentre de asdasdasdjasnfjasbefitbugsweritgbsipdubgsidzbgpiusdbs
+                else Console.WriteLine("Nyertél??");
+
+                Console.WriteLine($"\n{player.Name}-nek {player.Lives} élete maradt, emellett {player.Points} pontja van.");
+                Console.WriteLine($"\n{ai.Name}-nak {ai.Lives} élete maradt, emellett {ai.Points} pontja van.");
                 roundCount++;
+                Thread.Sleep(1000);
                 
 
             }
@@ -56,48 +60,52 @@ namespace buckshot_roulette
             int v;
 
             Console.ResetColor();
-            v = Menu.MenuRajzol(new string[] { "Shoot self", "Shoot opponent", "Use item" }); // Akarunk e kilépés vagy vissza gombot?
+            v = Menu.MenuRajzol(new string[] { "Fegyver magadra fogása", "Lőjj az ellenfeledre", "Kacatok használata" }); // Akarunk e kilépés vagy vissza gombot?
             switch (v)
             {
                 case 0:
                     Console.Clear();
-                    Console.WriteLine(ai.ShotAt(ai));
+                    ai.ShotAt(ai);
+                    Console.WriteLine($"{player.Name} önmagára lőtt!");
+                    Thread.Sleep(1000);
                     break;
                 case 1:
                     Console.Clear();
-                    Console.WriteLine(player.ShootSelf(ai));// Valamiért most nem működik az agyam és esélytelen hogy ezt most megcsináljam de megbeszéljük aztán holnap meglesz vagy ha akarod beírhatod a függvényeket
+                    player.ShootSelf(ai);// Valamiért most nem működik az agyam és esélytelen hogy ezt most megcsináljam de megbeszéljük aztán holnap meglesz vagy ha akarod beírhatod a függvényeket
+                    Console.WriteLine($"{player.Name} ellenfelére lőtt!");
+                    Thread.Sleep(1000);
                     break;
                 case 2:
-                    GetItemsList(player);
+                    GetItemsList(player, ai);
                     break;
             }
             Console.ResetColor();
         }
 
 
-        static void GetItemsList(Player player)
+        static void GetItemsList(Player player, AI ai)
         {
             List<string> items = new List<string>();
             items = player.Items;
             int v;
-            Console.ResetColor(); // egy keveset gondolkodtam azon hogy hogyan tudjuk a menübe a player tényleges itemjeit berakni de végül nem jött össze(legegyszerűbb ha csak 3 item van/többet kap a játékos és akkor a menü fix és nem random) de ez is megoldható normálisan
+            Console.ResetColor();
             v = Menu.MenuRajzol(new string[] { items[0], items[1], items[2] }); // itt lehetne a vissza gomb
             switch (v)
             {
                 case 0:
                     Console.Clear();
-                    Console.WriteLine(items[0]);
                     player.ChooseItem(items[0]);
+                    AfterItem(player, ai);
                     break;
                 case 1:
                     Console.Clear();
-                    Console.WriteLine("used item:", items[1]);
                     player.ChooseItem(items[1]);
+                    AfterItem(player, ai);
                     break;
                 case 2:
                     Console.Clear();
-                    Console.WriteLine("used item:", items[2]);
                     player.ChooseItem(items[2]);
+                    AfterItem(player, ai);
                     break;
             }
             Console.ResetColor();
@@ -109,6 +117,28 @@ namespace buckshot_roulette
 
             ai.PullTrigger(player);
 
+        }
+
+        static void AfterItem(Player player, AI ai)
+        {
+            int v ;
+            v = Menu.MenuRajzol(new string[] { "Fegyver magadra fogása", "Lőjj az ellenfeledre"});
+            switch (v)
+            {
+                case 0:
+                    Console.Clear();
+                    ai.ShotAt(ai);
+                    Console.WriteLine($"{player.Name} önmagára lőtt!");
+                    Thread.Sleep(1000);
+                    break;
+                case 1:
+                    Console.Clear();
+                    player.ShootSelf(ai);
+                    Console.WriteLine($"{player.Name} ellenfelére lőtt!");
+                    Thread.Sleep(1000);
+                    break;
+            }
+            Console.ResetColor();
         }
     }
 }
