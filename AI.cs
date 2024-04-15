@@ -34,9 +34,26 @@ namespace buckshot_roulette
             {
                 bool shootSelf = ShouldShootSelf(enemy);
                 if (shootSelf)
+                {
                     ShootSelf(this);
+                    if (Gun.LastBullet)
+                    {
+                        Console.WriteLine($"\nAz ellenfél önmagára lőtt ÉLES tölténnyel!");
+                    }
+                    else Console.WriteLine($"\nAz ellenfél önmagára lőtt VAK tölténnyel!");
+                    Thread.Sleep(2000);
+                }
                 else
+                    {
                     enemy.ShotAt(this);
+                        if (Gun.LastBullet)
+                    {
+                        Console.WriteLine($"\nAz ellenfél rád lőtt ÉLES tölténnyel!");
+                    }
+                    else Console.WriteLine($"\nAz ellenfél rád lőtt VAK tölténnyel!");
+                    Thread.Sleep(2000);
+                }
+                
             }
         }
 

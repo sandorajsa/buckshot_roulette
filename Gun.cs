@@ -19,7 +19,7 @@ namespace buckshot_roulette
         public static void LoadBullets() //minden kör elején feltölti a fegyvert
         {
             Random r = new Random();
-            int bulletNum = r.Next(4, 7);
+            int bulletNum = r.Next(6, 8);
             Bullets.Clear();
             Bullets.Add(true);
             Bullets.Add(false);

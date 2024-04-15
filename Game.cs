@@ -66,14 +66,22 @@ namespace buckshot_roulette
                 case 0:
                     Console.Clear();
                     ai.ShotAt(ai);
-                    Console.WriteLine($"{player.Name} önmagára lőtt!");
-                    Thread.Sleep(1000);
+                    if(Gun.LastBullet)
+                    {
+                        Console.WriteLine($"\n{player.Name} önmagára lőtt ÉLES tölténnyel!");
+                    }else Console.WriteLine($"\n{player.Name} önmagára lőtt VAK tölténnyel!");
+
+                    Thread.Sleep(2000);
                     break;
                 case 1:
                     Console.Clear();
                     player.ShootSelf(ai);// Valamiért most nem működik az agyam és esélytelen hogy ezt most megcsináljam de megbeszéljük aztán holnap meglesz vagy ha akarod beírhatod a függvényeket
-                    Console.WriteLine($"{player.Name} ellenfelére lőtt!");
-                    Thread.Sleep(1000);
+                    if (Gun.LastBullet)
+                    {
+                        Console.WriteLine($"\n{player.Name} ellenfelére lőtt ÉLES tölténnyel!");
+                    }
+                    else Console.WriteLine($"\n{player.Name} ellenfelére lőtt VAK tölténnyel!");
+                    Thread.Sleep(2000);
                     break;
                 case 2:
                     GetItemsList(player, ai);
@@ -95,16 +103,19 @@ namespace buckshot_roulette
                 case 0:
                     Console.Clear();
                     player.ChooseItem(items[0]);
+                    Thread.Sleep(2000);
                     AfterItem(player, ai);
                     break;
                 case 1:
                     Console.Clear();
                     player.ChooseItem(items[1]);
+                    Thread.Sleep(2000);
                     AfterItem(player, ai);
                     break;
                 case 2:
                     Console.Clear();
                     player.ChooseItem(items[2]);
+                    Thread.Sleep(2000);
                     AfterItem(player, ai);
                     break;
             }
@@ -128,14 +139,22 @@ namespace buckshot_roulette
                 case 0:
                     Console.Clear();
                     ai.ShotAt(ai);
-                    Console.WriteLine($"{player.Name} önmagára lőtt!");
-                    Thread.Sleep(1000);
+                    if (Gun.LastBullet)
+                    {
+                        Console.WriteLine($"\n{player.Name} önmagára lőtt ÉLES tölténnyel!");
+                    }
+                    else Console.WriteLine($"\n{player.Name} önmagára lőtt VAK tölténnyel!");
+                    Thread.Sleep(2000);
                     break;
                 case 1:
                     Console.Clear();
                     player.ShootSelf(ai);
-                    Console.WriteLine($"{player.Name} ellenfelére lőtt!");
-                    Thread.Sleep(1000);
+                    if (Gun.LastBullet)
+                    {
+                        Console.WriteLine($"\n{player.Name} ellenfelére lőtt ÉLES tölténnyel!");
+                    }
+                    else Console.WriteLine($"\n{player.Name} ellenfelére lőtt VAK tölténnyel!");
+                    Thread.Sleep(2000);
                     break;
             }
             Console.ResetColor();
