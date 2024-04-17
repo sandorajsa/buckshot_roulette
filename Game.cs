@@ -15,13 +15,15 @@ namespace buckshot_roulette
             Gun.LoadBullets();
             player.GetItems();
             ai.GetItems();
+            Console.WriteLine($"A fegyverben lévő lövedékek:\n");
+            WriteBullets();
 
-            
+
 
             while (player.Lives > 0 && ai.Lives > 0 && Gun.Bullets.Count > 0)
             {
-                Console.WriteLine($"A fegyverben lévő lövedékek:\n");
-                WriteBullets();
+                
+                
                 Thread.Sleep(3000);
                 Console.Clear();
                 Console.Write($"\nA(z) {roundCount}. kör következik");
@@ -45,25 +47,43 @@ namespace buckshot_roulette
                 else if (ai.Lives <= 0)
                 {
                     Console.WriteLine($"\n{ai.Name} meghalt.\n{player.Name} nyert! Pontjai: {player.Points}");
+                    Thread.Sleep(1500);
                 }
                 else if (player.Lives <= 0)
                 {
                     Console.WriteLine($"\n{player.Name} meghalt.\n{ai.Name} nyert! Pontjai: {ai.Points}");
+                    Thread.Sleep(1500);
 
                 }
                 else if (Gun.Bullets.Count <= 0)
                 {
                     Console.WriteLine($"\nElfogytak a lövedékek a fegyverből.\nJátékosok pontjai: \n\t{player.Name} - {player.Points} pont\n\t{ai.Name} - {ai.Points} pont");
+                    Thread.Sleep(1500);
                     if (player.Points > ai.Points)
+                    {
                         Console.WriteLine($"{player.Name} nyert");
+                            Thread.Sleep(1500);
+                    }
+                        
+                    
                     else if (ai.Points > player.Points)
+                    {
                         Console.WriteLine($"{ai.Name} nyert");
+                            Thread.Sleep(1500);
+                    }
+
+
                     else
+                    {
                         Console.WriteLine("A játék döntetlen");
+                            Thread.Sleep(1500);
+                    }
+                         
+                    
                 }
 
                 roundCount++;
-                Thread.Sleep(4000);
+                Thread.Sleep(2000);
                 Console.Clear();
 
 

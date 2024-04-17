@@ -8,3 +8,4 @@ Player jatekos = new Player(input, 3);
 AI bot = new AI("bot", 3);
 
 Game.Round(jatekos, bot);
+
