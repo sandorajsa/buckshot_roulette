@@ -125,7 +125,7 @@ namespace buckshot_roulette
             items = player.Items;
             int v;
             Console.ResetColor();
-            v = Menu.MenuRajzol(new string[] { items[0], items[1], items[2] }); // itt lehetne a vissza gomb
+            v = Menu.MenuRajzol(new string[] { items[0], items[1], items[2] , "Mégse"}); // itt lehetne a vissza gomb
             switch (v)
             {
                 case 0:
@@ -146,6 +146,10 @@ namespace buckshot_roulette
                     Thread.Sleep(8000);
                     AfterItem(player, ai);
                     break;
+                case 3:
+                    Console.Clear();
+                    PlayerTurn(player,ai);
+                break;
             }
             Console.ResetColor();
             
