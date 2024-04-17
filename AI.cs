@@ -26,31 +26,36 @@ namespace buckshot_roulette
             if (nextBullet != null)
             {
                 if (nextBullet == true)
+                {
                     enemy.ShotAt(this);
+                    Console.WriteLine($"\nAz ellenfél rád lőtt ÉLES tölténnyel!");
+                }
+                    
                 else
+                {
                     ShootSelf(this);
+                    Console.WriteLine($"\nAz ellenfél önmagára lőtt VAK tölténnyel!");
+                }   
             }
             else
             {
                 bool shootSelf = ShouldShootSelf(enemy);
                 if (shootSelf)
                 {
-                    ShootSelf(this);
-                    if (Gun.LastBullet)
-                    {
+                    bool bullet = ShootSelf(this);
+                    if (bullet)
                         Console.WriteLine($"\nAz ellenfél önmagára lőtt ÉLES tölténnyel!");
-                    }
-                    else Console.WriteLine($"\nAz ellenfél önmagára lőtt VAK tölténnyel!");
+                    else 
+                        Console.WriteLine($"\nAz ellenfél önmagára lőtt VAK tölténnyel!");
                     Thread.Sleep(2000);
                 }
                 else
-                    {
-                    enemy.ShotAt(this);
-                        if (Gun.LastBullet)
-                    {
+                {
+                    bool bullet = enemy.ShotAt(this);
+                    if (bullet)
                         Console.WriteLine($"\nAz ellenfél rád lőtt ÉLES tölténnyel!");
-                    }
-                    else Console.WriteLine($"\nAz ellenfél rád lőtt VAK tölténnyel!");
+                    else 
+                        Console.WriteLine($"\nAz ellenfél rád lőtt VAK tölténnyel!");
                     Thread.Sleep(2000);
                 }
                 
@@ -93,10 +98,12 @@ namespace buckshot_roulette
             switch (item)
             {
                 case "Sör":
-                    Console.WriteLine($"A következő töltény el lett távolítva a fegyverből. \nA lövedék {Gun.RemoveLastBullet()} volt.");
+                    if (Gun.NumOfBullets - 1 > 0)
+                        Console.WriteLine($"A következő töltény el lett távolítva a fegyverből. \nA lövedék {Gun.RemoveLastBullet()} volt.");
                     return null;
                 case "Elsősegély doboz":
-                    Lives++;
+                    if (Lives < MaxLives)
+                        Lives++;
                     return null;
                 case "Nagyító":
                     return Gun.NextBullet();

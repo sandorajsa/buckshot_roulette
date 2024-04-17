@@ -22,22 +22,50 @@ namespace buckshot_roulette
             {
                 Console.WriteLine($"A fegyverben lévő lövedékek:\n");
                 WriteBullets();
-                Thread.Sleep(8000);
+                Thread.Sleep(3000);
                 Console.Clear();
                 Console.Write($"\nA(z) {roundCount}. kör következik");
-                Thread.Sleep(5000);
+                Thread.Sleep(3000);
                 PlayerTurn(player, ai);
-                if (ai.Lives > 0)
-                {
-                    AITurn(player, ai);
-                }
-                else Console.WriteLine("Nyertél??");
-
                 Console.WriteLine($"\n{player.Name}-nek {player.Lives} élete maradt, emellett {player.Points} pontja van.");
                 Console.WriteLine($"\n{ai.Name}-nak {ai.Lives} élete maradt, emellett {ai.Points} pontja van.");
+                Thread.Sleep(6000);
+                Console.Clear();
+
+
+                if (ai.Lives > 0 && player.Lives > 0 && Gun.Bullets.Count > 0)
+                {
+                    AITurn(player, ai);
+                    Console.WriteLine($"\n{player.Name}-nek {player.Lives} élete maradt, emellett {player.Points} pontja van.");
+                    Console.WriteLine($"\n{ai.Name}-nak {ai.Lives} élete maradt, emellett {ai.Points} pontja van.");
+                    Thread.Sleep(6000);
+                    Console.Clear();
+
+                }
+                else if (ai.Lives <= 0)
+                {
+                    Console.WriteLine($"\n{ai.Name} meghalt.\n{player.Name} nyert! Pontjai: {player.Points}");
+                }
+                else if (player.Lives <= 0)
+                {
+                    Console.WriteLine($"\n{player.Name} meghalt.\n{ai.Name} nyert! Pontjai: {ai.Points}");
+
+                }
+                else if (Gun.Bullets.Count <= 0)
+                {
+                    Console.WriteLine($"\nElfogytak a lövedékek a fegyverből.\nJátékosok pontjai: \n\t{player.Name} - {player.Points} pont\n\t{ai.Name} - {ai.Points} pont");
+                    if (player.Points > ai.Points)
+                        Console.WriteLine($"{player.Name} nyert");
+                    else if (ai.Points > player.Points)
+                        Console.WriteLine($"{ai.Name} nyert");
+                    else
+                        Console.WriteLine("A játék döntetlen");
+                }
+
                 roundCount++;
-                Thread.Sleep(1000);
-                
+                Thread.Sleep(4000);
+                Console.Clear();
+
 
             }
         }
@@ -60,28 +88,28 @@ namespace buckshot_roulette
             int v;
 
             Console.ResetColor();
-            v = Menu.MenuRajzol(new string[] { "Fegyver magadra fogása", "Lőjj az ellenfeledre", "Kacatok használata" }); // Akarunk e kilépés vagy vissza gombot?
+            v = Menu.MenuRajzol(new string[] { "Fegyver magadra fogása", "Lőjj az ellenfeledre", "Tárgyak használata" }); // Akarunk e kilépés vagy vissza gombot?
             switch (v)
             {
                 case 0:
                     Console.Clear();
-                    ai.ShotAt(ai);
-                    if(Gun.LastBullet)
+                    bool bullet = player.ShootSelf(ai); 
+                    if(bullet)
                     {
                         Console.WriteLine($"\n{player.Name} önmagára lőtt ÉLES tölténnyel!");
                     }else Console.WriteLine($"\n{player.Name} önmagára lőtt VAK tölténnyel!");
 
-                    Thread.Sleep(2000);
+                    Thread.Sleep(8000);
                     break;
                 case 1:
                     Console.Clear();
-                    player.ShootSelf(ai);// Valamiért most nem működik az agyam és esélytelen hogy ezt most megcsináljam de megbeszéljük aztán holnap meglesz vagy ha akarod beírhatod a függvényeket
-                    if (Gun.LastBullet)
+                    bullet = ai.ShotAt(player);// Valamiért most nem működik az agyam és esélytelen hogy ezt most megcsináljam de megbeszéljük aztán holnap meglesz vagy ha akarod beírhatod a függvényeket
+                    if (bullet)
                     {
                         Console.WriteLine($"\n{player.Name} ellenfelére lőtt ÉLES tölténnyel!");
                     }
                     else Console.WriteLine($"\n{player.Name} ellenfelére lőtt VAK tölténnyel!");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(8000);
                     break;
                 case 2:
                     GetItemsList(player, ai);
@@ -103,19 +131,19 @@ namespace buckshot_roulette
                 case 0:
                     Console.Clear();
                     player.ChooseItem(items[0]);
-                    Thread.Sleep(2000);
+                    Thread.Sleep(8000);
                     AfterItem(player, ai);
                     break;
                 case 1:
                     Console.Clear();
                     player.ChooseItem(items[1]);
-                    Thread.Sleep(2000);
+                    Thread.Sleep(8000);
                     AfterItem(player, ai);
                     break;
                 case 2:
                     Console.Clear();
                     player.ChooseItem(items[2]);
-                    Thread.Sleep(2000);
+                    Thread.Sleep(8000);
                     AfterItem(player, ai);
                     break;
             }
@@ -127,7 +155,6 @@ namespace buckshot_roulette
         {
 
             ai.PullTrigger(player);
-
         }
 
         static void AfterItem(Player player, AI ai)
@@ -138,23 +165,23 @@ namespace buckshot_roulette
             {
                 case 0:
                     Console.Clear();
-                    ai.ShotAt(ai);
-                    if (Gun.LastBullet)
+                    bool bullet = player.ShootSelf(ai);
+                    if (bullet)
                     {
                         Console.WriteLine($"\n{player.Name} önmagára lőtt ÉLES tölténnyel!");
                     }
                     else Console.WriteLine($"\n{player.Name} önmagára lőtt VAK tölténnyel!");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(8000);
                     break;
                 case 1:
                     Console.Clear();
-                    player.ShootSelf(ai);
-                    if (Gun.LastBullet)
+                    bullet = ai.ShotAt(player);
+                    if (bullet)
                     {
                         Console.WriteLine($"\n{player.Name} ellenfelére lőtt ÉLES tölténnyel!");
                     }
                     else Console.WriteLine($"\n{player.Name} ellenfelére lőtt VAK tölténnyel!");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(8000);
                     break;
             }
             Console.ResetColor();

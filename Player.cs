@@ -11,6 +11,7 @@ namespace buckshot_roulette
         public string Name { get; private set; }
         public int Points { get; set; } = 0;
         public int Lives { get; set; }
+        public int MaxLives { get; set; }
         public int Damage = 1;
         public List<string> Items { get; private set; }
         private List<string> availableItems = new List<string> { "Sör", "Elsősegély doboz", "Nagyító", "Kézi fűrész" };
@@ -19,38 +20,39 @@ namespace buckshot_roulette
         {
             Name = name;
             Lives = maxLives;
+            MaxLives = maxLives;
             Items = new List<string>();
         }
 
-        public bool ShotAt(AI enemy) //ha azt választja hogy a másikat lőjje
+        public bool ShotAt(Player enemy) //ha azt választja hogy a másikat lőjje
         {
             if (Gun.Shoot(enemy))
             {
                 Lives -= enemy.Damage;
                 enemy.Damage = 1;
-                return Lives > 0;
+                enemy.Points += 100;
+                return true;
             }
             else
             {
                 enemy.Damage = 1;
-                Points += 100;
-                return true;
+                return false;
             }
             
         }
-        public bool ShootSelf(AI enemy) //ha önmagát akarja lőni
+        public bool ShootSelf(Player enemy) //ha önmagát akarja lőni
         {
             if (Gun.Shoot(enemy))
             {
                 Lives -= Damage;
                 Damage = 1;
-                return Lives > 0;
+                return true;
             }
             else
             {
                 Damage = 1;
                 Points += 200;
-                return true;
+                return false;
             }
         }
         public void GetItems() //ez alapból minden round elején meghívandó és ad 3 random itemet
@@ -74,10 +76,12 @@ namespace buckshot_roulette
             switch (item)
             {
                 case "Sör":
-                    Console.WriteLine($"A következő töltény el lett távolítva a fegyverből. \nA lövedék {Gun.RemoveLastBullet()} volt.");
+                    if (Gun.NumOfBullets - 1 > 0)
+                        Console.WriteLine($"A következő töltény el lett távolítva a fegyverből. \nA lövedék {Gun.RemoveLastBullet()} volt.");
                     break;
                 case "Elsősegély doboz":
-                    Lives++;
+                    if (Lives < MaxLives)
+                        Lives++;
                     break;
                 case "Nagyító":
                     Gun.NextBulletString();

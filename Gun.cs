@@ -14,12 +14,13 @@ namespace buckshot_roulette
         public static int LiveAtStart { get; private set; } //maradnak ugyanazok, a golyók eredeti aránya
         public static int BlankAtStart { get; private set; }
         public static int NumOfBullets { get {  return Bullets.Count; } }
-        public static bool LastBullet { get { return Bullets[NumOfBullets - 1]; } }
+        public static bool LastBullet { get { return Bullets[0]; } }
+
 
         public static void LoadBullets() //minden kör elején feltölti a fegyvert
         {
             Random r = new Random();
-            int bulletNum = r.Next(6, 8);
+            int bulletNum = r.Next(7, 9);
             Bullets.Clear();
             Bullets.Add(true);
             Bullets.Add(false);
@@ -62,7 +63,7 @@ namespace buckshot_roulette
             }
         }
 
-        public static bool Shoot(AI ai) //ez maga a lövés, azt adja vissza hogy a golyó éles volt e vagy vak
+        public static bool Shoot(Player ai) //ez maga a lövés, azt adja vissza hogy a golyó éles volt e vagy vak
         {
             bool liveOrNot = Bullets[Bullets.Count - 1];
             if (liveOrNot)
