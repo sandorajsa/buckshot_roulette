@@ -33,7 +33,7 @@ namespace buckshot_roulette
                 Console.Clear();
 
 
-                if (ai.Lives > 0 && player.Lives > 0 && Gun.Bullets.Count > 0)
+                if (ai.Lives > 0 && player.Lives > 0 && Gun.NumOfBullets > 0)
                 {
                     AITurn(player, ai);
                     Console.WriteLine($"\n{player.Name}-nek {player.Lives} élete maradt, emellett {player.Points} pontja van.");
@@ -42,32 +42,16 @@ namespace buckshot_roulette
                     Console.Clear();
 
                 }
-                else if (ai.Lives <= 0)
-                {
-                    Console.WriteLine($"\n{ai.Name} meghalt.\n{player.Name} nyert! Pontjai: {player.Points}");
-                }
-                else if (player.Lives <= 0)
-                {
-                    Console.WriteLine($"\n{player.Name} meghalt.\n{ai.Name} nyert! Pontjai: {ai.Points}");
-
-                }
-                else if (Gun.Bullets.Count <= 0)
-                {
-                    Console.WriteLine($"\nElfogytak a lövedékek a fegyverből.\nJátékosok pontjai: \n\t{player.Name} - {player.Points} pont\n\t{ai.Name} - {ai.Points} pont");
-                    if (player.Points > ai.Points)
-                        Console.WriteLine($"{player.Name} nyert");
-                    else if (ai.Points > player.Points)
-                        Console.WriteLine($"{ai.Name} nyert");
-                    else
-                        Console.WriteLine("A játék döntetlen");
-                }
+                if (ai.Lives <= 0 || player.Lives <= 0 || Gun.NumOfBullets <= 0)
+                    GameEnd(ai, player);
 
                 roundCount++;
                 Thread.Sleep(4000);
                 Console.Clear();
 
-
             }
+
+            GameEnd(ai, player);
         }
 
         public static void WriteBullets()
@@ -189,6 +173,29 @@ namespace buckshot_roulette
                     break;
             }
             Console.ResetColor();
+        }
+
+        static void GameEnd(AI ai, Player player)
+        {
+            if (ai.Lives <= 0)
+            {
+                Console.WriteLine($"\n{ai.Name} meghalt.\n{player.Name} nyert! Pontjai: {player.Points}");
+            }
+            else if (player.Lives <= 0)
+            {
+                Console.WriteLine($"\n{player.Name} meghalt.\n{ai.Name} nyert! Pontjai: {ai.Points}");
+
+            }
+            else
+            {
+                Console.WriteLine($"\nElfogytak a lövedékek a fegyverből.\nJátékosok pontjai: \n\t{player.Name} - {player.Points} pont\n\t{ai.Name} - {ai.Points} pont");
+                if (player.Points > ai.Points)
+                    Console.WriteLine($"{player.Name} nyert");
+                else if (ai.Points > player.Points)
+                    Console.WriteLine($"{ai.Name} nyert");
+                else
+                    Console.WriteLine("A játék döntetlen");
+            }
         }
     }
 }
