@@ -70,6 +70,8 @@ namespace buckshot_roulette
                     return r.Next(2) == 0;
                 else
                     return false;
+            else if (Damage == 2)
+                return false;
             else if (Gun.LiveNum < Gun.BlankNum)
                 if (Lives == 1 || enemy.Lives > Lives + 2)
                     return false;

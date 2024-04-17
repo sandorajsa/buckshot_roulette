@@ -81,12 +81,17 @@ namespace buckshot_roulette
                     break;
                 case "Elsősegély doboz":
                     if (Lives < MaxLives)
+                    {
                         Lives++;
+                        Console.WriteLine($"Visszaszerzett egy életet!");
+                    }
+                        
                     break;
                 case "Nagyító":
                     Gun.NextBulletString();
                     break;
                 case "Kézi fűrész":
+                    Console.WriteLine($"Megduplázta a sebzését!");
                     Damage = 2;
                     break;
             }
